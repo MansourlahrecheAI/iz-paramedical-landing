@@ -1,16 +1,18 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Check, CreditCard, Banknote } from 'lucide-react';
+import { Check, CreditCard, Banknote, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { Course, courses } from '@/data/courses';
+import { wilayas, getShippingPrice } from '@/data/wilayaShipping';
 
 const formSchema = z.object({
   firstName: z.string().min(2).max(50),
@@ -18,6 +20,7 @@ const formSchema = z.object({
   birthDate: z.string().min(1),
   birthPlace: z.string().min(2).max(100),
   address: z.string().min(5).max(200),
+  wilaya: z.string().min(1),
   phone: z.string().min(9).max(15),
   email: z.string().email().optional().or(z.literal('')),
   paymentMethod: z.enum(['cash', 'card']),
@@ -32,10 +35,11 @@ interface RegistrationFormProps {
 }
 
 const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<'single' | 'double'>('single');
+  const [selectedWilaya, setSelectedWilaya] = useState<string>('');
   const [selectedCourses, setSelectedCourses] = useState<string[]>(
     preselectedCourse ? [preselectedCourse.id] : []
   );
@@ -52,8 +56,17 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
       package: 'single',
       paymentMethod: 'cash',
       selectedCourses: preselectedCourse ? [preselectedCourse.id] : [],
+      wilaya: '',
     },
   });
+
+  const shippingPrice = useMemo(() => {
+    if (selectedPackage === 'double') return 0; // Free shipping for double package
+    return getShippingPrice(selectedWilaya);
+  }, [selectedWilaya, selectedPackage]);
+
+  const coursePrice = selectedPackage === 'single' ? 4900 : 9800;
+  const totalPrice = coursePrice + shippingPrice;
 
   const handleCourseToggle = (courseId: string) => {
     const maxCourses = selectedPackage === 'single' ? 1 : 3;
@@ -81,6 +94,11 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
     }
   };
 
+  const handleWilayaChange = (value: string) => {
+    setSelectedWilaya(value);
+    setValue('wilaya', value);
+  };
+
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     // Simulate API call
@@ -93,12 +111,15 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
 
     reset();
     setSelectedCourses(preselectedCourse ? [preselectedCourse.id] : []);
+    setSelectedWilaya('');
     setIsSubmitting(false);
   };
 
-  const getPrice = () => {
-    return selectedPackage === 'single' ? '4,900 DZD' : '9,800 DZD';
+  const formatPrice = (price: number) => {
+    return price.toLocaleString() + ' DZD';
   };
+
+  const noDeliveryAvailable = selectedWilaya && shippingPrice === 0 && selectedPackage === 'single';
 
   return (
     <Card className="gradient-card shadow-card border-border/50">
@@ -241,12 +262,46 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
             </div>
           </div>
 
+          {/* Wilaya Selection */}
+          <div className="space-y-2">
+            <Label className="flex items-center gap-2">
+              <MapPin className="h-4 w-4" />
+              {t('form.wilaya')}
+            </Label>
+            <Select value={selectedWilaya} onValueChange={handleWilayaChange}>
+              <SelectTrigger className={errors.wilaya ? 'border-destructive' : ''}>
+                <SelectValue placeholder={t('form.wilaya.select')} />
+              </SelectTrigger>
+              <SelectContent className="max-h-[300px]">
+                {wilayas.map((wilaya) => (
+                  <SelectItem key={wilaya.name} value={wilaya.name}>
+                    {language === 'ar' ? wilaya.nameAr : wilaya.name}
+                    {selectedPackage === 'single' && wilaya.shippingPrice > 0 && (
+                      <span className="text-muted-foreground ms-2">
+                        ({wilaya.shippingPrice.toLocaleString()} DZD)
+                      </span>
+                    )}
+                    {selectedPackage === 'single' && wilaya.shippingPrice === 0 && (
+                      <span className="text-destructive ms-2">
+                        ({t('form.nodelivery')})
+                      </span>
+                    )}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {noDeliveryAvailable && (
+              <p className="text-sm text-destructive">{t('form.nodelivery')}</p>
+            )}
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="address">{t('form.address')}</Label>
             <Input
               id="address"
               {...register('address')}
               className={errors.address ? 'border-destructive' : ''}
+              placeholder={t('form.delivery.home')}
             />
           </div>
 
@@ -301,17 +356,33 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
           </div>
 
           {/* Total & Submit */}
-          <div className="pt-4 border-t border-border">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-lg font-semibold">{t('pricing.title')}:</span>
-              <span className="text-2xl font-bold text-gradient">{getPrice()}</span>
+          <div className="pt-4 border-t border-border space-y-3">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">{t('pricing.title')}:</span>
+              <span className="font-medium">{formatPrice(coursePrice)}</span>
+            </div>
+            {selectedPackage === 'single' && selectedWilaya && shippingPrice > 0 && (
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">{t('pricing.shipping')}:</span>
+                <span className="font-medium">{formatPrice(shippingPrice)}</span>
+              </div>
+            )}
+            {selectedPackage === 'double' && (
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">{t('pricing.shipping')}:</span>
+                <span className="font-medium text-success">{t('pricing.delivery.free')} ✓</span>
+              </div>
+            )}
+            <div className="flex items-center justify-between pt-2 border-t border-border">
+              <span className="text-lg font-semibold">{t('pricing.total')}:</span>
+              <span className="text-2xl font-bold text-gradient">{formatPrice(totalPrice)}</span>
             </div>
             <Button
               type="submit"
               variant="hero"
               size="xl"
               className="w-full"
-              disabled={isSubmitting || selectedCourses.length === 0}
+              disabled={isSubmitting || selectedCourses.length === 0 || noDeliveryAvailable}
             >
               {isSubmitting ? (
                 <span className="flex items-center gap-2">
