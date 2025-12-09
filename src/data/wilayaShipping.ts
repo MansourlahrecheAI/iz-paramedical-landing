@@ -1,0 +1,71 @@
+export interface Wilaya {
+  name: string;
+  nameAr: string;
+  shippingPrice: number;
+}
+
+export const wilayas: Wilaya[] = [
+  { name: 'Adrar', nameAr: 'أدرار', shippingPrice: 1400 },
+  { name: 'Chlef', nameAr: 'الشلف', shippingPrice: 800 },
+  { name: 'Laghouat', nameAr: 'الأغواط', shippingPrice: 950 },
+  { name: 'Oum El Bouaghi', nameAr: 'أم البواقي', shippingPrice: 800 },
+  { name: 'Batna', nameAr: 'باتنة', shippingPrice: 800 },
+  { name: 'Béjaïa', nameAr: 'بجاية', shippingPrice: 800 },
+  { name: 'Biskra', nameAr: 'بسكرة', shippingPrice: 950 },
+  { name: 'Béchar', nameAr: 'بشار', shippingPrice: 1100 },
+  { name: 'Blida', nameAr: 'البليدة', shippingPrice: 750 },
+  { name: 'Bouira', nameAr: 'البويرة', shippingPrice: 800 },
+  { name: 'Tamanrasset', nameAr: 'تمنراست', shippingPrice: 1600 },
+  { name: 'Tébessa', nameAr: 'تبسة', shippingPrice: 900 },
+  { name: 'Tlemcen', nameAr: 'تلمسان', shippingPrice: 500 },
+  { name: 'Tiaret', nameAr: 'تيارت', shippingPrice: 750 },
+  { name: 'Tizi Ouzou', nameAr: 'تيزي وزو', shippingPrice: 800 },
+  { name: 'Alger', nameAr: 'الجزائر', shippingPrice: 650 },
+  { name: 'Djelfa', nameAr: 'الجلفة', shippingPrice: 950 },
+  { name: 'Jijel', nameAr: 'جيجل', shippingPrice: 800 },
+  { name: 'Sétif', nameAr: 'سطيف', shippingPrice: 800 },
+  { name: 'Saïda', nameAr: 'سعيدة', shippingPrice: 750 },
+  { name: 'Skikda', nameAr: 'سكيكدة', shippingPrice: 800 },
+  { name: 'Sidi Bel Abbès', nameAr: 'سيدي بلعباس', shippingPrice: 700 },
+  { name: 'Annaba', nameAr: 'عنابة', shippingPrice: 850 },
+  { name: 'Guelma', nameAr: 'قالمة', shippingPrice: 850 },
+  { name: 'Constantine', nameAr: 'قسنطينة', shippingPrice: 800 },
+  { name: 'Médéa', nameAr: 'المدية', shippingPrice: 750 },
+  { name: 'Mostaganem', nameAr: 'مستغانم', shippingPrice: 700 },
+  { name: "M'Sila", nameAr: 'المسيلة', shippingPrice: 900 },
+  { name: 'Mascara', nameAr: 'معسكر', shippingPrice: 700 },
+  { name: 'Ouargla', nameAr: 'ورقلة', shippingPrice: 1000 },
+  { name: 'Oran', nameAr: 'وهران', shippingPrice: 700 },
+  { name: 'El Bayadh', nameAr: 'البيض', shippingPrice: 1000 },
+  { name: 'Illizi', nameAr: 'إليزي', shippingPrice: 0 },
+  { name: 'Bordj Bou Arréridj', nameAr: 'برج بوعريريج', shippingPrice: 800 },
+  { name: 'Boumerdès', nameAr: 'بومرداس', shippingPrice: 800 },
+  { name: 'El Tarf', nameAr: 'الطارف', shippingPrice: 850 },
+  { name: 'Tindouf', nameAr: 'تندوف', shippingPrice: 0 },
+  { name: 'Tissemsilt', nameAr: 'تيسمسيلت', shippingPrice: 750 },
+  { name: 'El Oued', nameAr: 'الوادي', shippingPrice: 1000 },
+  { name: 'Khenchela', nameAr: 'خنشلة', shippingPrice: 800 },
+  { name: 'Souk Ahras', nameAr: 'سوق أهراس', shippingPrice: 800 },
+  { name: 'Tipaza', nameAr: 'تيبازة', shippingPrice: 800 },
+  { name: 'Mila', nameAr: 'ميلة', shippingPrice: 800 },
+  { name: 'Aïn Defla', nameAr: 'عين الدفلى', shippingPrice: 750 },
+  { name: 'Naâma', nameAr: 'النعامة', shippingPrice: 1000 },
+  { name: 'Aïn Témouchent', nameAr: 'عين تموشنت', shippingPrice: 650 },
+  { name: 'Ghardaïa', nameAr: 'غرداية', shippingPrice: 1000 },
+  { name: 'Relizane', nameAr: 'غليزان', shippingPrice: 750 },
+  { name: 'Timimoun', nameAr: 'تيميمون', shippingPrice: 1400 },
+  { name: 'Bordj Badji Mokhtar', nameAr: 'برج باجي مختار', shippingPrice: 0 },
+  { name: 'Ouled Djellal', nameAr: 'أولاد جلال', shippingPrice: 950 },
+  { name: 'Béni Abbès', nameAr: 'بني عباس', shippingPrice: 1000 },
+  { name: 'In Salah', nameAr: 'عين صالح', shippingPrice: 1600 },
+  { name: 'In Guezzam', nameAr: 'عين قزام', shippingPrice: 1600 },
+  { name: 'Touggourt', nameAr: 'تقرت', shippingPrice: 1000 },
+  { name: 'Djanet', nameAr: 'جانت', shippingPrice: 0 },
+  { name: "M'Ghair", nameAr: 'المغير', shippingPrice: 1000 },
+  { name: 'El Meniaa', nameAr: 'المنيعة', shippingPrice: 1000 },
+];
+
+export const getShippingPrice = (wilayaName: string): number => {
+  const wilaya = wilayas.find(w => w.name === wilayaName);
+  return wilaya ? wilaya.shippingPrice : 0;
+};
