@@ -89,7 +89,24 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Footer
     'footer.rights': 'جميع الحقوق محفوظة',
-    'footer.address': 'الجزائر',
+    'footer.address': 'باتنة، الجزائر',
+    
+    // Reviews
+    'reviews.title': 'التقييمات والآراء',
+    'reviews.count': 'تقييم',
+    'reviews.addReview': 'أضف تقييمك',
+    'reviews.yourName': 'اسمك',
+    'reviews.namePlaceholder': 'أدخل اسمك',
+    'reviews.yourRating': 'تقييمك',
+    'reviews.yourComment': 'تعليقك',
+    'reviews.commentPlaceholder': 'اكتب تعليقك هنا...',
+    'reviews.submit': 'إرسال التقييم',
+    'reviews.submitting': 'جاري الإرسال...',
+    'reviews.success': 'تم إرسال التقييم بنجاح!',
+    'reviews.error': 'حدث خطأ أثناء الإرسال',
+    'reviews.nameRequired': 'الرجاء إدخال اسمك',
+    'reviews.noReviews': 'لا توجد تقييمات بعد',
+    'reviews.loading': 'جاري التحميل...',
     
     // General
     'general.learnMore': 'اعرف المزيد',
@@ -174,7 +191,24 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Footer
     'footer.rights': 'Tous droits réservés',
-    'footer.address': 'Algérie',
+    'footer.address': 'Batna, Algérie',
+    
+    // Reviews
+    'reviews.title': 'Avis et Évaluations',
+    'reviews.count': 'avis',
+    'reviews.addReview': 'Ajouter votre avis',
+    'reviews.yourName': 'Votre nom',
+    'reviews.namePlaceholder': 'Entrez votre nom',
+    'reviews.yourRating': 'Votre note',
+    'reviews.yourComment': 'Votre commentaire',
+    'reviews.commentPlaceholder': 'Écrivez votre commentaire ici...',
+    'reviews.submit': 'Envoyer l\'avis',
+    'reviews.submitting': 'Envoi en cours...',
+    'reviews.success': 'Avis envoyé avec succès!',
+    'reviews.error': 'Erreur lors de l\'envoi',
+    'reviews.nameRequired': 'Veuillez entrer votre nom',
+    'reviews.noReviews': 'Aucun avis pour le moment',
+    'reviews.loading': 'Chargement...',
     
     // General
     'general.learnMore': 'En savoir plus',
@@ -259,7 +293,24 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Footer
     'footer.rights': 'All rights reserved',
-    'footer.address': 'Algeria',
+    'footer.address': 'Batna, Algeria',
+    
+    // Reviews
+    'reviews.title': 'Reviews & Ratings',
+    'reviews.count': 'reviews',
+    'reviews.addReview': 'Add Your Review',
+    'reviews.yourName': 'Your Name',
+    'reviews.namePlaceholder': 'Enter your name',
+    'reviews.yourRating': 'Your Rating',
+    'reviews.yourComment': 'Your Comment',
+    'reviews.commentPlaceholder': 'Write your comment here...',
+    'reviews.submit': 'Submit Review',
+    'reviews.submitting': 'Submitting...',
+    'reviews.success': 'Review submitted successfully!',
+    'reviews.error': 'Error submitting review',
+    'reviews.nameRequired': 'Please enter your name',
+    'reviews.noReviews': 'No reviews yet',
+    'reviews.loading': 'Loading...',
     
     // General
     'general.learnMore': 'Learn More',

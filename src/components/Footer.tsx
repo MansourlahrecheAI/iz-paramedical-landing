@@ -2,10 +2,14 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import logo from '@/assets/logo.jpeg';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import { courses } from '@/data/courses';
 
 const Footer = () => {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
+
+  // Show first 6 courses in footer
+  const footerCourses = courses.slice(0, 6);
 
   return (
     <footer className="bg-card border-t border-border">
@@ -30,18 +34,15 @@ const Footer = () => {
           <div className="space-y-4">
             <h4 className="font-semibold text-foreground">{t('nav.courses')}</h4>
             <div className="grid grid-cols-2 gap-2">
-              <Link to="/course/nursing" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                {t('course.nursing')}
-              </Link>
-              <Link to="/course/pharmacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                {t('course.pharmacy')}
-              </Link>
-              <Link to="/course/laboratory" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                {t('course.laboratory')}
-              </Link>
-              <Link to="/course/emergency" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                {t('course.emergency')}
-              </Link>
+              {footerCourses.map((course) => (
+                <Link 
+                  key={course.id}
+                  to={`/course/${course.slug}`} 
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {t(course.nameKey)}
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -55,11 +56,11 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Phone className="h-4 w-4 text-primary" />
-                <span dir="ltr">+213 XX XXX XXXX</span>
+                <span dir="ltr">+213 673 82 11 34</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail className="h-4 w-4 text-primary" />
-                <span>contact@iz-institut.dz</span>
+                <span>kingpoweracademy@gmail.com</span>
               </div>
             </div>
           </div>
