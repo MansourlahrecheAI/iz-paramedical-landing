@@ -1,13 +1,11 @@
-import { useParams, Navigate } from 'react-router-dom';
-import { Clock, Award, CheckCircle2, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
+import { Clock, Award, CheckCircle2, ArrowLeft, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getCourseBySlug } from '@/data/courses';
 import RegistrationForm from '@/components/RegistrationForm';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import CourseReviews from '@/components/CourseReviews';
 
 const CoursePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -130,10 +128,14 @@ const CoursePage = () => {
                 </div>
               </div>
 
-              {/* Reviews Section */}
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold">{t('reviews.title')}</h3>
-                <CourseReviews courseSlug={course.slug} />
+              {/* Reviews Link */}
+              <div>
+                <Link to={`/course/${course.slug}/reviews`}>
+                  <Button variant="outline" className="gap-2 w-full sm:w-auto">
+                    <MessageSquare className="h-4 w-4" />
+                    {t('reviews.viewAll')}
+                  </Button>
+                </Link>
               </div>
             </div>
 
