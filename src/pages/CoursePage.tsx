@@ -1,11 +1,12 @@
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { Clock, Award, CheckCircle2, ArrowLeft, MessageSquare } from 'lucide-react';
+import { Clock, Award, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getCourseBySlug } from '@/data/courses';
 import RegistrationForm from '@/components/RegistrationForm';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CourseRatingPreview from '@/components/CourseRatingPreview';
 
 const CoursePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -77,6 +78,7 @@ const CoursePage = () => {
                 <Award className="h-4 w-4 text-accent" />
                 <span className="text-sm font-medium">{t('courses.certificate')}</span>
               </div>
+              <CourseRatingPreview courseSlug={course.slug} />
             </div>
           </div>
         </div>
@@ -128,15 +130,6 @@ const CoursePage = () => {
                 </div>
               </div>
 
-              {/* Reviews Link */}
-              <div>
-                <Link to={`/course/${course.slug}/reviews`}>
-                  <Button variant="outline" className="gap-2 w-full sm:w-auto">
-                    <MessageSquare className="h-4 w-4" />
-                    {t('reviews.viewAll')}
-                  </Button>
-                </Link>
-              </div>
             </div>
 
             {/* Right: Registration Form */}
