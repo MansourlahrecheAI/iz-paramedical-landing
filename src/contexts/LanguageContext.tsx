@@ -107,6 +107,8 @@ const translations: Record<Language, Record<string, string>> = {
     'reviews.nameRequired': 'الرجاء إدخال اسمك',
     'reviews.noReviews': 'لا توجد تقييمات بعد',
     'reviews.loading': 'جاري التحميل...',
+    'reviews.viewAll': 'عرض التقييمات',
+    'nav.back': 'رجوع',
     
     // General
     'general.learnMore': 'اعرف المزيد',
@@ -209,6 +211,8 @@ const translations: Record<Language, Record<string, string>> = {
     'reviews.nameRequired': 'Veuillez entrer votre nom',
     'reviews.noReviews': 'Aucun avis pour le moment',
     'reviews.loading': 'Chargement...',
+    'reviews.viewAll': 'Voir les avis',
+    'nav.back': 'Retour',
     
     // General
     'general.learnMore': 'En savoir plus',
@@ -311,6 +315,8 @@ const translations: Record<Language, Record<string, string>> = {
     'reviews.nameRequired': 'Please enter your name',
     'reviews.noReviews': 'No reviews yet',
     'reviews.loading': 'Loading...',
+    'reviews.viewAll': 'View Reviews',
+    'nav.back': 'Back',
     
     // General
     'general.learnMore': 'Learn More',
