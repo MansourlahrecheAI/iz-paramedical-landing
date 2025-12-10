@@ -7,6 +7,7 @@ import { getCourseBySlug } from '@/data/courses';
 import RegistrationForm from '@/components/RegistrationForm';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CourseReviews from '@/components/CourseReviews';
 
 const CoursePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -127,6 +128,12 @@ const CoursePage = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Reviews Section */}
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold">{t('reviews.title')}</h3>
+                <CourseReviews courseSlug={course.slug} />
               </div>
             </div>
 
