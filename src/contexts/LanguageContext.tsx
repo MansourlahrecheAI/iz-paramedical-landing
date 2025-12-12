@@ -29,7 +29,7 @@ const translations: Record<Language, Record<string, string>> = {
     'courses.details': 'تفاصيل الدورة',
     'courses.duration': 'المدة',
     'courses.certificate': 'شهادة تربص معتمدة',
-    'courses.internship': 'شهادة تربص صالحة من 1 إلى 6 أشهر',
+    'courses.internship': 'مدة التربص صالحة من 1 إلى 6 أشهر',
     
     // Course Names
     'course.firstaid': 'دورة الإسعافات الأولية',
