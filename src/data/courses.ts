@@ -19,7 +19,7 @@ export const courses: Course[] = [
     descKey: 'course.firstaid.desc',
     icon: HeartPulse,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1587745416684-47953f16f02f?w=800&q=80',
+    image: '../src/data/First Aid.jpeg',
     color: 'from-red-500 to-rose-500',
   },
   {
@@ -29,7 +29,7 @@ export const courses: Course[] = [
     descKey: 'course.laboratory.desc',
     icon: FlaskConical,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1579165466741-7f35e4755660?w=800&q=80',
+    image: '../src/data/Laboratory assistant.jpeg',
     color: 'from-violet-500 to-purple-500',
   },
   {
@@ -39,7 +39,7 @@ export const courses: Course[] = [
     descKey: 'course.ambulance.desc',
     icon: Ambulance,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1587745416684-47953f16f02f?w=800&q=80',
+    image: '../src/data/Ambulance Driver.jpg',
     color: 'from-orange-500 to-amber-500',
   },
   {
@@ -49,7 +49,7 @@ export const courses: Course[] = [
     descKey: 'course.dentalrestorer.desc',
     icon: Smile,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800&q=80',
+    image: '../src/data/Dental Restorer.jpg',
     color: 'from-cyan-500 to-teal-500',
   },
   {
@@ -59,7 +59,7 @@ export const courses: Course[] = [
     descKey: 'course.medicalsecretary.desc',
     icon: FileText,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80',
+    image: '../src/data/Medical Secretary.jpg',
     color: 'from-blue-500 to-indigo-500',
   },
   {
@@ -69,7 +69,7 @@ export const courses: Course[] = [
     descKey: 'course.elderly.desc',
     icon: UserRound,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&q=80',
+    image: '../src/data/Elderly Care.jpg',
     color: 'from-pink-500 to-fuchsia-500',
   },
   {
@@ -79,7 +79,7 @@ export const courses: Course[] = [
     descKey: 'course.nurseassistant.desc',
     icon: Stethoscope,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80',
+    image: '../src/data/Nurse Assistant.jpg',
     color: 'from-emerald-500 to-green-500',
   },
   {
@@ -89,7 +89,7 @@ export const courses: Course[] = [
     descKey: 'course.dentalassistant.desc',
     icon: SmilePlus,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800&q=80',
+    image: '../src/data/Dental Assistant.jpg',
     color: 'from-sky-500 to-blue-500',
   },
   {
@@ -99,7 +99,7 @@ export const courses: Course[] = [
     descKey: 'course.medicalassistant.desc',
     icon: Activity,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80',
+    image: '../src/data/Medical Assistant.jpg',
     color: 'from-slate-500 to-gray-600',
   },
   {
@@ -109,7 +109,7 @@ export const courses: Course[] = [
     descKey: 'course.pharmacist.desc',
     icon: Pill,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1585435557343-3b092031a831?w=800&q=80',
+    image: '../src/data/Pharmacist Salesman.jpg',
     color: 'from-lime-500 to-green-500',
   },
   {
@@ -119,7 +119,7 @@ export const courses: Course[] = [
     descKey: 'course.nutritionist.desc',
     icon: Activity,
     duration: 1,
-    image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80',
+    image: '../src/data/Nutrionist Assistant.jpg',
     color: 'from-green-500 to-emerald-500',
   },
 ];
