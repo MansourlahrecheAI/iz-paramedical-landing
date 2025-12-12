@@ -12,7 +12,7 @@ const Index = () => {
 
   const stats = [
     { icon: Users, value: '5000+', label: 'Students' },
-    { icon: BookOpen, value: '10', label: 'Courses' },
+    { icon: BookOpen, value: '11', label: 'Courses' },
     { icon: Award, value: '100%', label: 'Certified' },
     { icon: Shield, value: '24/7', label: 'Support' },
   ];
@@ -144,9 +144,7 @@ const Index = () => {
 
               {/* Double Course */}
               <div className="bg-card/20 backdrop-blur-sm rounded-2xl p-6 border-2 border-primary-foreground/40 relative">
-                <div className="absolute -top-3 start-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-xs font-bold px-4 py-1 rounded-full">
-                  BEST VALUE
-                </div>
+                
                 <h3 className="text-xl font-semibold text-primary-foreground mb-2">
                   {t('pricing.double')}
                 </h3>
@@ -155,6 +153,22 @@ const Index = () => {
                 </p>
                 <p className="text-primary-foreground/80 text-sm">
                   {t('pricing.double.features')}
+                </p>
+              </div>
+            
+            {/* Double Course */}
+              <div className="bg-card/20 backdrop-blur-sm rounded-2xl p-6 border-2 border-primary-foreground/40 relative border-center">
+                <div className="absolute -top-3 start-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-xs font-bold px-4 py-1 rounded-full">
+                  BEST VALUE
+                </div>
+                <h3 className="text-xl font-semibold text-primary-foreground mb-2">
+                  {t('pricing.triple')}
+                </h3>
+                <p className="text-4xl font-bold text-primary-foreground mb-4">
+                  {t('pricing.triple.price')}
+                </p>
+                <p className="text-primary-foreground/80 text-sm">
+                  {t('pricing.triple.features')}
                 </p>
               </div>
             </div>

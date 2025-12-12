@@ -115,16 +115,26 @@ const CoursePage = () => {
                       <p className="text-2xl font-bold text-primary">{t('pricing.single.price')}</p>
                     </div>
                   </div>
+                  <div className="p-5 rounded-xl border-2 border-border bg-card">
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-semibold">{t('pricing.double')}</h4>
+                        <p className="text-sm text-muted-foreground">{t('pricing.double.features')}</p>
+                      </div>
+                      <p className="text-2xl font-bold text-primary">{t('pricing.double.price')}</p>
+                    </div>
+                  </div>
                   <div className="p-5 rounded-xl border-2 border-accent bg-accent/5 relative">
                     <div className="absolute -top-3 start-4 bg-accent text-accent-foreground text-xs font-bold px-3 py-1 rounded-full">
                       BEST VALUE
                     </div>
                     <div className="flex items-center justify-between">
                       <div>
-                        <h4 className="font-semibold">{t('pricing.double')}</h4>
-                        <p className="text-sm text-muted-foreground">{t('pricing.double.features')}</p>
+                        <h4 className="font-semibold">{t('pricing.triple')}</h4>
+                        <p className="text-sm text-muted-foreground">{t('pricing.triple.features')}</p>
                       </div>
-                      <p className="text-2xl font-bold text-accent">{t('pricing.double.price')}</p>
+                      <p className="text-2xl font-bold text-accent">{t('pricing.triple.price')}</p>
                     </div>
                   </div>
                 </div>
