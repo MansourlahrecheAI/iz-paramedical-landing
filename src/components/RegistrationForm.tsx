@@ -22,10 +22,13 @@ const formSchema = z.object({
   address: z.string().min(5).max(200),
   wilaya: z.string().min(1),
   phone: z.string().min(9).max(15),
-  email: z.string().email().optional().or(z.literal('')),
   paymentMethod: z.enum(['cash', 'card']),
-  package: z.enum(['single', 'double']),
-  selectedCourses: z.array(z.string()).min(1).max(3),
+  package: z.enum(['single', 'double', 'triple']),
+  selectedCourses: z.array(z.string()).min(1).max(4),
+  // Card fields (optional, required only when card is selected)
+  cardNumber: z.string().optional(),
+  cardExpiry: z.string().optional(),
+  cardCvv: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -38,11 +41,12 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
   const { t, language } = useLanguage();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<'single' | 'double'>('single');
+  const [selectedPackage, setSelectedPackage] = useState<'single' | 'double' | 'triple'>('single');
   const [selectedWilaya, setSelectedWilaya] = useState<string>('');
   const [selectedCourses, setSelectedCourses] = useState<string[]>(
     preselectedCourse ? [preselectedCourse.id] : []
   );
+  const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card'>('cash');
 
   const {
     register,
@@ -50,6 +54,7 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
     formState: { errors },
     setValue,
     reset,
+    watch,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,15 +66,33 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
   });
 
   const shippingPrice = useMemo(() => {
-    if (selectedPackage === 'double') return 0; // Free shipping for double package
+    if (selectedPackage === 'triple') return 0; // Free shipping for triple package
     return getShippingPrice(selectedWilaya);
   }, [selectedWilaya, selectedPackage]);
 
-  const coursePrice = selectedPackage === 'single' ? 4900 : 9800;
+  const getPackagePrice = () => {
+    switch (selectedPackage) {
+      case 'single': return 4900;
+      case 'double': return 9800;
+      case 'triple': return 14700;
+      default: return 4900;
+    }
+  };
+
+  const coursePrice = getPackagePrice();
   const totalPrice = coursePrice + shippingPrice;
 
+  const getMaxCourses = () => {
+    switch (selectedPackage) {
+      case 'single': return 1;
+      case 'double': return 2;
+      case 'triple': return 4;
+      default: return 1;
+    }
+  };
+
   const handleCourseToggle = (courseId: string) => {
-    const maxCourses = selectedPackage === 'single' ? 1 : 3;
+    const maxCourses = getMaxCourses();
     let newSelection: string[];
 
     if (selectedCourses.includes(courseId)) {
@@ -84,11 +107,12 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
     setValue('selectedCourses', newSelection);
   };
 
-  const handlePackageChange = (value: 'single' | 'double') => {
+  const handlePackageChange = (value: 'single' | 'double' | 'triple') => {
     setSelectedPackage(value);
     setValue('package', value);
-    if (value === 'single' && selectedCourses.length > 1) {
-      const newSelection = [selectedCourses[0]];
+    const maxCourses = value === 'single' ? 1 : value === 'double' ? 2 : 4;
+    if (selectedCourses.length > maxCourses) {
+      const newSelection = selectedCourses.slice(0, maxCourses);
       setSelectedCourses(newSelection);
       setValue('selectedCourses', newSelection);
     }
@@ -99,7 +123,40 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
     setValue('wilaya', value);
   };
 
+  const handlePaymentMethodChange = (value: 'cash' | 'card') => {
+    setPaymentMethod(value);
+    setValue('paymentMethod', value);
+  };
+
   const onSubmit = async (data: FormData) => {
+    // Validate card fields if card payment is selected
+    if (paymentMethod === 'card') {
+      if (!data.cardNumber || data.cardNumber.length < 16) {
+        toast({
+          title: t('form.card.error'),
+          description: t('form.card.numberRequired'),
+          variant: 'destructive',
+        });
+        return;
+      }
+      if (!data.cardExpiry || !data.cardExpiry.match(/^\d{2}\/\d{2}$/)) {
+        toast({
+          title: t('form.card.error'),
+          description: t('form.card.expiryRequired'),
+          variant: 'destructive',
+        });
+        return;
+      }
+      if (!data.cardCvv || data.cardCvv.length < 3) {
+        toast({
+          title: t('form.card.error'),
+          description: t('form.card.cvvRequired'),
+          variant: 'destructive',
+        });
+        return;
+      }
+    }
+
     setIsSubmitting(true);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
@@ -112,6 +169,7 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
     reset();
     setSelectedCourses(preselectedCourse ? [preselectedCourse.id] : []);
     setSelectedWilaya('');
+    setPaymentMethod('cash');
     setIsSubmitting(false);
   };
 
@@ -119,7 +177,7 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
     return price.toLocaleString() + ' DZD';
   };
 
-  const noDeliveryAvailable = selectedWilaya && shippingPrice === 0 && selectedPackage === 'single';
+  const noDeliveryAvailable = selectedWilaya && shippingPrice === 0 && selectedPackage !== 'triple';
 
   return (
     <Card className="gradient-card shadow-card border-border/50">
@@ -135,8 +193,8 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
             <Label className="text-base font-semibold">{t('form.package')}</Label>
             <RadioGroup
               value={selectedPackage}
-              onValueChange={(value) => handlePackageChange(value as 'single' | 'double')}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+              onValueChange={(value) => handlePackageChange(value as 'single' | 'double' | 'triple')}
+              className="grid grid-cols-1 gap-4"
             >
               <Label
                 htmlFor="single"
@@ -165,15 +223,34 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
                     : 'border-border hover:border-accent/50'
                 }`}
               >
-                <div className="absolute top-0 right-0 bg-accent text-accent-foreground text-xs font-bold px-3 py-1 rounded-bl-lg">
-                  BEST VALUE
-                </div>
                 <div className="flex items-center gap-3">
                   <RadioGroupItem value="double" id="double" />
                   <span className="font-semibold">{t('pricing.double')}</span>
                 </div>
                 <p className="text-2xl font-bold text-accent mt-2">{t('pricing.double.price')}</p>
                 <p className="text-sm text-muted-foreground mt-1">{t('pricing.double.features')}</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {t('pricing.delivery')}: {t('pricing.delivery.paid')}
+                </p>
+              </Label>
+
+              <Label
+                htmlFor="triple"
+                className={`flex flex-col p-4 rounded-xl border-2 cursor-pointer transition-all relative overflow-hidden ${
+                  selectedPackage === 'triple'
+                    ? 'border-accent bg-accent/5 shadow-soft'
+                    : 'border-border hover:border-accent/50'
+                }`}
+              >
+                <div className="absolute top-0 right-0 bg-accent text-accent-foreground text-xs font-bold px-3 py-1 rounded-bl-lg">
+                  BEST VALUE
+                </div>
+                <div className="flex items-center gap-3">
+                  <RadioGroupItem value="triple" id="triple" />
+                  <span className="font-semibold">{t('pricing.triple')}</span>
+                </div>
+                <p className="text-2xl font-bold text-accent mt-2">{t('pricing.triple.price')}</p>
+                <p className="text-sm text-muted-foreground mt-1">{t('pricing.triple.features')}</p>
                 <p className="text-xs text-success font-medium mt-1">
                   {t('pricing.delivery')}: {t('pricing.delivery.free')} ✓
                 </p>
@@ -184,13 +261,13 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
           {/* Course Selection */}
           <div className="space-y-3">
             <Label className="text-base font-semibold">
-              {t('form.course.select')} ({selectedCourses.length}/{selectedPackage === 'single' ? 1 : 3})
+              {t('form.course.select')} ({selectedCourses.length}/{getMaxCourses()})
             </Label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
               {courses.map((course) => {
                 const Icon = course.icon;
                 const isSelected = selectedCourses.includes(course.id);
-                const isDisabled = !isSelected && selectedCourses.length >= (selectedPackage === 'single' ? 1 : 3);
+                const isDisabled = !isSelected && selectedCourses.length >= getMaxCourses();
                 
                 return (
                   <button
@@ -276,12 +353,12 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
                 {wilayas.map((wilaya) => (
                   <SelectItem key={wilaya.name} value={wilaya.name}>
                     {language === 'ar' ? wilaya.nameAr : wilaya.name}
-                    {selectedPackage === 'single' && wilaya.shippingPrice > 0 && (
+                    {selectedPackage !== 'triple' && wilaya.shippingPrice > 0 && (
                       <span className="text-muted-foreground ms-2">
                         ({wilaya.shippingPrice.toLocaleString()} DZD)
                       </span>
                     )}
-                    {selectedPackage === 'single' && wilaya.shippingPrice === 0 && (
+                    {selectedPackage !== 'triple' && wilaya.shippingPrice === 0 && (
                       <span className="text-destructive ms-2">
                         ({t('form.nodelivery')})
                       </span>
@@ -305,40 +382,32 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="phone">{t('form.phone')}</Label>
-              <Input
-                id="phone"
-                type="tel"
-                dir="ltr"
-                {...register('phone')}
-                className={errors.phone ? 'border-destructive' : ''}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">{t('form.email')}</Label>
-              <Input
-                id="email"
-                type="email"
-                dir="ltr"
-                {...register('email')}
-                className={errors.email ? 'border-destructive' : ''}
-              />
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">{t('form.phone')}</Label>
+            <Input
+              id="phone"
+              type="tel"
+              dir="ltr"
+              {...register('phone')}
+              className={errors.phone ? 'border-destructive' : ''}
+            />
           </div>
 
           {/* Payment Method */}
           <div className="space-y-3">
             <Label className="text-base font-semibold">{t('form.payment')}</Label>
             <RadioGroup
-              defaultValue="cash"
-              onValueChange={(value) => setValue('paymentMethod', value as 'cash' | 'card')}
+              value={paymentMethod}
+              onValueChange={(value) => handlePaymentMethodChange(value as 'cash' | 'card')}
               className="grid grid-cols-1 sm:grid-cols-2 gap-4"
             >
               <Label
                 htmlFor="cash"
-                className="flex items-center gap-3 p-4 rounded-xl border-2 border-border cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5"
+                className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                  paymentMethod === 'cash'
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border hover:border-primary/50'
+                }`}
               >
                 <RadioGroupItem value="cash" id="cash" />
                 <Banknote className="h-5 w-5 text-success" />
@@ -346,7 +415,11 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
               </Label>
               <Label
                 htmlFor="card"
-                className="flex items-center gap-3 p-4 rounded-xl border-2 border-border cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5"
+                className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                  paymentMethod === 'card'
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border hover:border-primary/50'
+                }`}
               >
                 <RadioGroupItem value="card" id="card" />
                 <CreditCard className="h-5 w-5 text-primary" />
@@ -355,19 +428,64 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
             </RadioGroup>
           </div>
 
+          {/* Card Fields - Only show when card is selected */}
+          {paymentMethod === 'card' && (
+            <div className="space-y-4 p-4 rounded-lg border border-primary/20 bg-primary/5">
+              <h4 className="font-semibold text-foreground">{t('form.card.title')}</h4>
+              <div className="space-y-2">
+                <Label htmlFor="cardNumber">{t('form.card.number')}</Label>
+                <Input
+                  id="cardNumber"
+                  type="text"
+                  dir="ltr"
+                  placeholder="XXXX XXXX XXXX XXXX"
+                  maxLength={19}
+                  {...register('cardNumber')}
+                  className={errors.cardNumber ? 'border-destructive' : ''}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="cardExpiry">{t('form.card.expiry')}</Label>
+                  <Input
+                    id="cardExpiry"
+                    type="text"
+                    dir="ltr"
+                    placeholder="MM/YY"
+                    maxLength={5}
+                    {...register('cardExpiry')}
+                    className={errors.cardExpiry ? 'border-destructive' : ''}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cardCvv">{t('form.card.cvv')}</Label>
+                  <Input
+                    id="cardCvv"
+                    type="text"
+                    dir="ltr"
+                    placeholder="CVV"
+                    maxLength={4}
+                    {...register('cardCvv')}
+                    className={errors.cardCvv ? 'border-destructive' : ''}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Total & Submit */}
           <div className="pt-4 border-t border-border space-y-3">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">{t('pricing.title')}:</span>
               <span className="font-medium">{formatPrice(coursePrice)}</span>
             </div>
-            {selectedPackage === 'single' && selectedWilaya && shippingPrice > 0 && (
+            {selectedPackage !== 'triple' && selectedWilaya && shippingPrice > 0 && (
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">{t('pricing.shipping')}:</span>
                 <span className="font-medium">{formatPrice(shippingPrice)}</span>
               </div>
             )}
-            {selectedPackage === 'double' && (
+            {selectedPackage === 'triple' && (
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">{t('pricing.shipping')}:</span>
                 <span className="font-medium text-success">{t('pricing.delivery.free')} ✓</span>
