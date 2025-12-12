@@ -51,6 +51,10 @@ const CourseCard = ({ course, index }: CourseCardProps) => {
             <Award className="h-4 w-4 text-accent" />
             <span>{t('courses.certificate')}</span>
           </div>
+          <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+            <Clock className="h-4 w-4 text-accent" />
+            <span>{t('courses.internship')}</span>
+          </div>
         </div>
       </CardContent>
 
