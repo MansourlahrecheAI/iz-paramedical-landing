@@ -28,7 +28,7 @@ const translations: Record<Language, Record<string, string>> = {
     'courses.enroll': 'سجل الآن',
     'courses.details': 'تفاصيل الدورة',
     'courses.duration': 'المدة',
-    'courses.certificate': 'شهادة تربص معتمدة',
+    'courses.certificate': 'شهادة معتمدة',
     'courses.internship': 'مدة التربص صالحة من 1 إلى 6 أشهر',
     
     // Course Names
@@ -84,7 +84,7 @@ const translations: Record<Language, Record<string, string>> = {
     'form.wilaya.select': 'اختر الولاية',
     'form.payment': 'طريقة الدفع',
     'form.payment.cash': 'الدفع عند الاستلام',
-    'form.payment.card': 'بطاقة الذهب الجزائرية',
+    'form.payment.card': 'البطاقة الذهبية',
     'form.submit': 'تأكيد التسجيل',
     'form.success': 'تم التسجيل بنجاح!',
     'form.course.select': 'اختر الدورة',
