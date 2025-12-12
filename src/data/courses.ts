@@ -29,7 +29,7 @@ export const courses: Course[] = [
     descKey: 'course.laboratory.desc',
     icon: FlaskConical,
     duration: 1,
-    image: '../src/data/Laboratory assistant.jpeg',
+    image: '../src/data/Laboratory assistant.jpg',
     color: 'from-violet-500 to-purple-500',
   },
   {
