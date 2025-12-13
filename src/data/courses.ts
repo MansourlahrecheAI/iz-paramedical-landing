@@ -1,4 +1,30 @@
-import { HeartPulse, FlaskConical, Ambulance, Smile, FileText, UserRound, Stethoscope, SmilePlus, Activity, Pill } from 'lucide-react';
+import {
+  HeartPulse,
+  FlaskConical,
+  Ambulance,
+  Smile,
+  FileText,
+  UserRound,
+  Stethoscope,
+  SmilePlus,
+  Activity,
+  Pill,
+} from 'lucide-react';
+
+// ✅ IMAGE IMPORTS
+import firstAidImg from '@/assets/images/first-aid.jpg';
+import labAssistantImg from '@/assets/images/laboratory-assistant.jpg';
+import ambulanceDriverImg from '@/assets/images/ambulance-driver.jpg';
+import dentalRestorerImg from '@/assets/images/dental-restorer.jpg';
+import medicalSecretaryImg from '@/assets/images/medical-secretary.jpg';
+import elderlyCareImg from '@/assets/images/elderly-care.jpg';
+import nurseAssistantImg from '@/assets/images/nurse-assistant.jpg';
+import dentalAssistantImg from '@/assets/images/dental-assistant.jpg';
+import medicalAssistantImg from '@/assets/images/medical-assistant.jpg';
+import pharmacistSalesmanImg from '@/assets/images/pharmacist-salesman.jpg';
+import nutritionistAssistantImg from '@/assets/images/nutritionist-assistant.jpg';
+
+// --------------------------------------------------
 
 export interface Course {
   id: string;
@@ -11,6 +37,8 @@ export interface Course {
   color: string;
 }
 
+// --------------------------------------------------
+
 export const courses: Course[] = [
   {
     id: '1',
@@ -19,7 +47,7 @@ export const courses: Course[] = [
     descKey: 'course.firstaid.desc',
     icon: HeartPulse,
     duration: 1,
-    image: '../src/data/FirstAid3.jpg',
+    image: firstAidImg,
     color: 'from-red-500 to-rose-500',
   },
   {
@@ -29,7 +57,7 @@ export const courses: Course[] = [
     descKey: 'course.laboratory.desc',
     icon: FlaskConical,
     duration: 1,
-    image: '../src/data/Laboratory Assistant.jpg',
+    image: labAssistantImg,
     color: 'from-violet-500 to-purple-500',
   },
   {
@@ -39,7 +67,7 @@ export const courses: Course[] = [
     descKey: 'course.ambulance.desc',
     icon: Ambulance,
     duration: 1,
-    image: '../src/data/Ambulance Driver.jpg',
+    image: ambulanceDriverImg,
     color: 'from-orange-500 to-amber-500',
   },
   {
@@ -49,7 +77,7 @@ export const courses: Course[] = [
     descKey: 'course.dentalrestorer.desc',
     icon: Smile,
     duration: 1,
-    image: '../src/data/Dental Restorer.jpg',
+    image: dentalRestorerImg,
     color: 'from-cyan-500 to-teal-500',
   },
   {
@@ -59,7 +87,7 @@ export const courses: Course[] = [
     descKey: 'course.medicalsecretary.desc',
     icon: FileText,
     duration: 1,
-    image: '../src/data/Medical Secretary.jpg',
+    image: medicalSecretaryImg,
     color: 'from-blue-500 to-indigo-500',
   },
   {
@@ -69,7 +97,7 @@ export const courses: Course[] = [
     descKey: 'course.elderly.desc',
     icon: UserRound,
     duration: 1,
-    image: '../src/data/Elderly Care.jpg',
+    image: elderlyCareImg,
     color: 'from-pink-500 to-fuchsia-500',
   },
   {
@@ -79,7 +107,7 @@ export const courses: Course[] = [
     descKey: 'course.nurseassistant.desc',
     icon: Stethoscope,
     duration: 1,
-    image: '../src/data/Nurse Assistant.jpg',
+    image: nurseAssistantImg,
     color: 'from-emerald-500 to-green-500',
   },
   {
@@ -89,7 +117,7 @@ export const courses: Course[] = [
     descKey: 'course.dentalassistant.desc',
     icon: SmilePlus,
     duration: 1,
-    image: '../src/data/Dental Assistant.jpg',
+    image: dentalAssistantImg,
     color: 'from-sky-500 to-blue-500',
   },
   {
@@ -99,7 +127,7 @@ export const courses: Course[] = [
     descKey: 'course.medicalassistant.desc',
     icon: Activity,
     duration: 1,
-    image: '../src/data/Medical Assistant.jpg',
+    image: medicalAssistantImg,
     color: 'from-slate-500 to-gray-600',
   },
   {
@@ -109,7 +137,7 @@ export const courses: Course[] = [
     descKey: 'course.pharmacist.desc',
     icon: Pill,
     duration: 1,
-    image: '../src/data/Pharmacist Salesman.jpg',
+    image: pharmacistSalesmanImg,
     color: 'from-lime-500 to-green-500',
   },
   {
@@ -119,10 +147,12 @@ export const courses: Course[] = [
     descKey: 'course.nutritionist.desc',
     icon: Activity,
     duration: 1,
-    image: '../src/data/Nutrionist Assistant.jpg',
+    image: nutritionistAssistantImg,
     color: 'from-green-500 to-emerald-500',
   },
 ];
+
+// --------------------------------------------------
 
 export const getCourseBySlug = (slug: string): Course | undefined => {
   return courses.find(course => course.slug === slug);
