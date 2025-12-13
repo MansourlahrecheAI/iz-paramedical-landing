@@ -74,6 +74,10 @@ const CoursePage = () => {
                   {course.duration} {t('general.months')}
                 </span>
               </div>
+              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+               <Clock className="h-4 w-4 text-accent" />
+                <span>{t('courses.internship')}</span>
+              </div>
               <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
                 <Award className="h-4 w-4 text-accent" />
                 <span className="text-sm font-medium">{t('courses.certificate')}</span>
