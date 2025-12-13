@@ -19,7 +19,7 @@ export const courses: Course[] = [
     descKey: 'course.firstaid.desc',
     icon: HeartPulse,
     duration: 1,
-    image: '../src/data/First Aid.jpeg',
+    image: '../src/data/FirstAid2.jpg',
     color: 'from-red-500 to-rose-500',
   },
   {
@@ -29,7 +29,7 @@ export const courses: Course[] = [
     descKey: 'course.laboratory.desc',
     icon: FlaskConical,
     duration: 1,
-    image: '../src/data/Laboratory assistant.jpeg',
+    image: '../src/data/Laboratory Assistant.jpg',
     color: 'from-violet-500 to-purple-500',
   },
   {
