@@ -19,7 +19,7 @@ export const courses: Course[] = [
     descKey: 'course.firstaid.desc',
     icon: HeartPulse,
     duration: 1,
-    image: '../src/data/First Aid.jpg',
+    image: '../src/data/Ambulance Driver.jpg',
     color: 'from-red-500 to-rose-500',
   },
   {
