@@ -70,8 +70,27 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Use service role to delete the user
+    // Use service role client
     const adminClient = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Get the user's email to check if it's the initial super admin
+    const { data: targetUser, error: targetUserError } = await adminClient.auth.admin.getUserById(userId);
+    
+    if (targetUserError) {
+      console.error('Error fetching target user:', targetUserError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to fetch user information' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Prevent deleting the initial super admin
+    if (targetUser?.user?.email === 'admin@admin.xyz') {
+      return new Response(
+        JSON.stringify({ error: 'The initial super admin account cannot be deleted' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     // First, remove the role (this will cascade due to foreign key)
     const { error: roleDeleteError } = await adminClient
