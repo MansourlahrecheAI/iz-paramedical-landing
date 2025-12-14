@@ -22,7 +22,7 @@ const formSchema = z.object({
   address: z.string().min(5).max(200),
   wilaya: z.string().min(1),
   phone: z.string().min(9).max(15),
-  paymentMethod: z.enum(['cash', 'card']),
+  paymentMethod: z.enum(['cod', 'card']),
   package: z.enum(['single', 'double', 'triple']),
   selectedCourses: z.array(z.string()).min(1).max(4),
   // Card fields (optional, required only when card is selected)
@@ -46,7 +46,7 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
   const [selectedCourses, setSelectedCourses] = useState<string[]>(
     preselectedCourse ? [preselectedCourse.id] : []
   );
-  const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card'>('cash');
+  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'card'>('cod');
 
   const {
     register,
@@ -59,7 +59,7 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       package: 'single',
-      paymentMethod: 'cash',
+      paymentMethod: 'cod',
       selectedCourses: preselectedCourse ? [preselectedCourse.id] : [],
       wilaya: '',
     },
@@ -123,7 +123,7 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
     setValue('wilaya', value);
   };
 
-  const handlePaymentMethodChange = (value: 'cash' | 'card') => {
+  const handlePaymentMethodChange = (value: 'cod' | 'card') => {
     setPaymentMethod(value);
     setValue('paymentMethod', value);
   };
@@ -197,7 +197,7 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
       reset();
       setSelectedCourses(preselectedCourse ? [preselectedCourse.id] : []);
       setSelectedWilaya('');
-      setPaymentMethod('cash');
+      setPaymentMethod('cod');
     } catch (error) {
       console.error('Registration error:', error);
       toast({
@@ -435,18 +435,18 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
             <Label className="text-base font-semibold">{t('form.payment')}</Label>
             <RadioGroup
               value={paymentMethod}
-              onValueChange={(value) => handlePaymentMethodChange(value as 'cash' | 'card')}
+              onValueChange={(value) => handlePaymentMethodChange(value as 'cod' | 'card')}
               className="grid grid-cols-1 sm:grid-cols-2 gap-4"
             >
               <Label
-                htmlFor="cash"
+                htmlFor="cod"
                 className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                  paymentMethod === 'cash'
+                  paymentMethod === 'cod'
                     ? 'border-primary bg-primary/5'
                     : 'border-border hover:border-primary/50'
                 }`}
               >
-                <RadioGroupItem value="cash" id="cash" />
+                <RadioGroupItem value="cod" id="cod" />
                 <Banknote className="h-5 w-5 text-success" />
                 <span className="font-medium">{t('form.payment.cash')}</span>
               </Label>
