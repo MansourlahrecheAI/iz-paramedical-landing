@@ -34,7 +34,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Course Names
     'course.firstaid': 'دورة الإسعافات الأولية',
     'course.firstaid.desc': 'تعلم تقنيات الإسعافات الأولية وإنقاذ الحياة',
-    'course.laboratory': 'دورة مساعد مخبر',
+    'course.laboratory': 'دورة مساعد مخبري',
     'course.laboratory.desc': 'تحليل العينات الطبية والفحوصات المخبرية',
     'course.ambulance': 'دورة سائق سيارة إسعاف',
     'course.ambulance.desc': 'قيادة سيارة الإسعاف والتدخل السريع',
@@ -65,7 +65,7 @@ const translations: Record<Language, Record<string, string>> = {
     'pricing.triple.price': '14,700 دج',
     'pricing.single.features': 'شهادة معتمدة واحدة',
     'pricing.double.features': 'شهادتين + شهادة مجانية بقيمة 4,900 دج',
-    'pricing.triple.features': '4 شهادات معتمدة + توصيل مجاني',
+    'pricing.triple.features': '3 شهادات معتمدة + شهادة مجانية',
     'pricing.delivery': 'التوصيل',
     'pricing.delivery.paid': 'مدفوع',
     'pricing.delivery.free': 'مجاني',
