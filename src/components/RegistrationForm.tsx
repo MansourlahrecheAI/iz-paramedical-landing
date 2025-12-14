@@ -85,7 +85,7 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
   const getMaxCourses = () => {
     switch (selectedPackage) {
       case 'single': return 1;
-      case 'double': return 2;
+      case 'double': return 3;
       case 'triple': return 7;
       default: return 1;
     }
