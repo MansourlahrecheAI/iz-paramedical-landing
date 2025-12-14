@@ -1,1 +1,10 @@
 project_id = "vohwtvmxexdyodyhvboo"
+
+[functions.create-admin]
+verify_jwt = true
+
+[functions.delete-admin]
+verify_jwt = true
+
+[functions.setup-initial-admin]
+verify_jwt = false
