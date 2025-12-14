@@ -24,7 +24,7 @@ const formSchema = z.object({
   phone: z.string().min(9).max(15),
   paymentMethod: z.enum(['cod', 'card']),
   package: z.enum(['single', 'double', 'triple']),
-  selectedCourses: z.array(z.string()).min(1).max(4),
+  selectedCourses: z.array(z.string()).min(1).max(7),
   // Card fields (optional, required only when card is selected)
   cardNumber: z.string().optional(),
   cardExpiry: z.string().optional(),
@@ -86,7 +86,7 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
     switch (selectedPackage) {
       case 'single': return 1;
       case 'double': return 2;
-      case 'triple': return 4;
+      case 'triple': return 7;
       default: return 1;
     }
   };
@@ -110,7 +110,7 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
   const handlePackageChange = (value: 'single' | 'double' | 'triple') => {
     setSelectedPackage(value);
     setValue('package', value);
-    const maxCourses = value === 'single' ? 1 : value === 'double' ? 2 : 4;
+    const maxCourses = value === 'single' ? 1 : value === 'double' ? 2 : 7;
     if (selectedCourses.length > maxCourses) {
       const newSelection = selectedCourses.slice(0, maxCourses);
       setSelectedCourses(newSelection);
