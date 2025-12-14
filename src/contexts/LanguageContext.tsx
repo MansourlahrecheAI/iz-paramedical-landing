@@ -38,7 +38,7 @@ const translations: Record<Language, Record<string, string>> = {
     'course.laboratory.desc': 'تحليل العينات الطبية والفحوصات المخبرية',
     'course.ambulance': 'دورة سائق سيارة إسعاف',
     'course.ambulance.desc': 'قيادة سيارة الإسعاف والتدخل السريع',
-    'course.dentalrestorer': 'دورة مساعد ترميم الأسنان',
+    'course.dentalrestorer': 'دورة مساعد مرمم الأسنان',
     'course.dentalrestorer.desc': 'المساعدة في ترميم وتجميل الأسنان',
     'course.medicalsecretary': 'دورة السكرتارية الطبية',
     'course.medicalsecretary.desc': 'إدارة الملفات الطبية والمواعيد',
