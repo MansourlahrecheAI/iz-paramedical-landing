@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Lock, Mail, Shield } from 'lucide-react';
+import { Lock, Mail, Shield, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logo from '@/assets/logo.jpeg';
 
 const AdminLogin = () => {
@@ -144,6 +145,12 @@ const AdminLogin = () => {
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Signing in...' : 'Sign In'}
             </Button>
+            <Link to="/">
+              <Button type="button" variant="ghost" className="w-full mt-2">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Home
+              </Button>
+            </Link>
           </form>
         </CardContent>
       </Card>
