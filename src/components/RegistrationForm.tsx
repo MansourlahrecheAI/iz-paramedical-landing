@@ -13,7 +13,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { Course, courses } from '@/data/courses';
 import { wilayas, getShippingPrice } from '@/data/wilayaShipping';
-
+import { supabase } from '@/integrations/supabase/client';
 const formSchema = z.object({
   firstName: z.string().min(2).max(50),
   lastName: z.string().min(2).max(50),
@@ -158,19 +158,56 @@ const RegistrationForm = ({ preselectedCourse }: RegistrationFormProps) => {
     }
 
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
     
-    toast({
-      title: t('form.success'),
-      description: `${data.firstName} ${data.lastName}`,
-    });
+    try {
+      // Save each selected course as a separate registration
+      const registrations = selectedCourses.map(courseId => ({
+        first_name: data.firstName.trim(),
+        surname: data.lastName.trim(),
+        date_of_birth: data.birthDate,
+        place_of_birth: data.birthPlace.trim(),
+        address: data.address.trim(),
+        wilaya: data.wilaya,
+        phone: data.phone.trim(),
+        course_slug: courseId,
+        package_type: selectedPackage,
+        payment_method: paymentMethod,
+        total_price: totalPrice,
+      }));
 
-    reset();
-    setSelectedCourses(preselectedCourse ? [preselectedCourse.id] : []);
-    setSelectedWilaya('');
-    setPaymentMethod('cash');
-    setIsSubmitting(false);
+      const { error } = await supabase
+        .from('course_registrations')
+        .insert(registrations);
+
+      if (error) {
+        console.error('Registration error:', error);
+        toast({
+          title: t('form.error') || 'Error',
+          description: error.message,
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      toast({
+        title: t('form.success'),
+        description: `${data.firstName} ${data.lastName}`,
+      });
+
+      reset();
+      setSelectedCourses(preselectedCourse ? [preselectedCourse.id] : []);
+      setSelectedWilaya('');
+      setPaymentMethod('cash');
+    } catch (error) {
+      console.error('Registration error:', error);
+      toast({
+        title: t('form.error') || 'Error',
+        description: 'An unexpected error occurred',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const formatPrice = (price: number) => {
